@@ -1,0 +1,52 @@
+/*******************************************************
+	Following is the BinaryTreeNode class structure
+	
+	class BinaryTreeNode<T> {
+		T data;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+		
+		public BinaryTreeNode(T data) {
+			this.data = data;
+		}
+	}
+*******************************************************/
+Ans:
+public class Solution {
+
+	static int countUnivalSubtrees = 0;
+    
+	public static int countUnivalTrees(BinaryTreeNode<Integer> root) {
+		// Write your code here.
+		countUnivalSubtrees=0;
+		dfs(root);
+		return countUnivalSubtrees;
+		
+	}
+
+	private static boolean dfs(BinaryTreeNode<Integer> node){
+
+		if(node==null) return true;// If current node is null, it is a unival subtree.
+
+		boolean isLeftUnival=dfs(node.left);// Recursively check if the left subtree is unival
+		boolean isRightUnival=dfs(node.right);// Recursively check if the right subtree is unival
+
+		if(!isLeftUnival ||!isRightUnival ) return false; // If either left or right subtree is not unival, return false
+
+		// Capture the values of left and right children. 
+        // Use the current node's value if the child is null.
+		int leftVal=(node.left==null)?node.data : node.left.data;
+		int rightVal=(node.right==null)?node.data :node.right.data;
+
+		 // If the left value equals right value and also equals the current node value, 
+        // it's a unival subtree, increment the count.
+		if(leftVal==rightVal && rightVal==node.data){
+			countUnivalSubtrees++;
+			return true;
+		}
+		return false;
+	}
+TC:O(N)
+SC:O(N)
+
+}
